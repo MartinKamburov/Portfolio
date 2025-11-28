@@ -36,16 +36,16 @@ function App() {
   const skills = [
     { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
     { name: 'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
+    { name: 'Python', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
     { name: 'Tailwind', logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg' },
-    { name: 'Selenium', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg' },
     { name: 'Java', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
     { name: 'Spring', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
     { name: 'Postgres', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-    { name: 'AWS', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg' },
     { name: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+    { name: 'AWS', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg' },
     { name: 'Git', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
-    { name: 'Python', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
     { name: 'HTML5', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+    { name: 'Selenium', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg' },
   ];
 
   return (
@@ -196,7 +196,7 @@ function App() {
             <ProjectCard 
               title="ApplyO" 
               description="Applyo is a browser extension/dashboard that helps you stay organized during your job hunt."
-              tags={['React', 'Next.js', 'PostgreSQL', 'Tailwind']}
+              tags={['React', 'Next.js', 'PostgreSQL', 'Tailwind', 'TypeScript']}
               imageUrl="/ApplyoPic.jpg"
               projectUrl="https://github.com/MartinKamburov/ApplyO"
             />
@@ -208,23 +208,23 @@ function App() {
               projectUrl="https://github.com/MartinKamburov/NBA-Stat-Finder"
             />
             <ProjectCard 
-              title="House Listing Automation" 
-              description="This project uses Selenium to scrape house listings and send them to your email."
-              tags={['React', 'Vite', 'Tailwind v4']}
-              imageUrl=""
+              title="Real-Estate Listing Automation" 
+              description="This project scrapes house listings and auto posts them to Facebook Marketplace."
+              tags={['Python', 'Selenium']}
+              imageUrl="/RealEstateListingsScraper.png"
               projectUrl="https://drive.google.com/file/d/1VF8CzEENIybL2tO_NoWT8nTHMQlKwUWr/view?usp=sharing"
             />
             <ProjectCard 
               title="JWT-Auth-Project" 
               description="A concise full‑stack starter pack protected by stateless JWT authentication."
-              tags={['Spring Boot', 'React', 'PostgreSQL']}
+              tags={['Spring Boot', 'React', 'PostgreSQL', 'TypeScript']}
               imageUrl="/JwtAuthenticationProject.png"
               projectUrl="https://github.com/MartinKamburov/JWT-Auth-Project"
             />
             <ProjectCard 
               title="Privy Tune" 
               description="An offline WebGPU powered AI Chatbot, download an LLM completely in the browser."
-              tags={['React', 'Vite', 'Tailwind v4']}
+              tags={['React', 'Typescript', 'Tailwind']}
               imageUrl="/PrivyTunePic.png"
               projectUrl="https://privytune.vercel.app/"
             />
@@ -244,7 +244,7 @@ function App() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">Let's Connect</h2>
           <p className="text-slate-300 mb-8 text-lg">Currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is open!</p>
-          <a href="mailto:your.email@example.com" className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-blue-600 text-white font-semibold rounded-full transition-all">
+          <a href="mailto:martinivkamburov@gmail.com" className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-blue-600 text-white font-semibold rounded-full transition-all">
             <Mail size={20} /> Say Hello
           </a>
         </div>
