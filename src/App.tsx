@@ -58,7 +58,7 @@ function App() {
             onClick={(e) => handleSmoothScroll(e, '#home')}
             className={`text-2xl font-bold tracking-tight cursor-pointer ${isScrolled ? 'text-slate-900' : 'text-white'}`}
           >
-            Dev<span className="text-primary">.</span>Portfolio
+            Martin<span className="text-primary">.</span>Kamburov
           </a>
           <ul className="hidden md:flex space-x-8 font-medium">
             {navLinks.map((link) => (
