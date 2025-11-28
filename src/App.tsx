@@ -1,110 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, Code2 } from 'lucide-react';
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // --- TRAIL ANIMATION SETUP ---
-  const trailLength = 20; 
-  const trailRefs = useRef<(HTMLDivElement | null)[]>([]);
-  
-  // Track if we have found the mouse yet so we don't start at 0,0
-  const isFirstMove = useRef(true); 
-
-  // We initiate coordinates to null or 0, but the 'isFirstMove' flag handles the logic
-  const mouseCoords = useRef({ x: 0, y: 0 });
-  const trailPositions = useRef(Array(trailLength).fill({ x: 0, y: 0 }));
-
-  if (trailRefs.current.length !== trailLength) {
-    trailRefs.current = Array(trailLength).fill(null);
-  }
-
-  useEffect(() => {
-    let animationFrameId: number;
-
-    const animateTrail = () => {
-      const positions = trailPositions.current;
-      const mouse = mouseCoords.current;
-
-      // 1. Move Head
-      positions[0] = mouse;
-
-      // 2. Move Body
-      for (let i = 1; i < trailLength; i++) {
-        const leader = positions[i - 1];
-        const follower = positions[i];
-        
-        positions[i] = {
-          x: follower.x + (leader.x - follower.x) * 0.2,
-          y: follower.y + (leader.y - follower.y) * 0.2,
-        };
-      }
-
-      // 3. Check if stopped (for fading)
-      const head = positions[0];
-      const tail = positions[trailLength - 1];
-      const distance = Math.hypot(head.x - tail.x, head.y - tail.y);
-      const isMoving = distance > 0.5;
-
-      // 4. Update DOM
-      trailRefs.current.forEach((ref, index) => {
-        if (ref) {
-          const { x, y } = positions[index];
-          
-          ref.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-          
-          const indexRatio = index / (trailLength - 1);
-          const baseOpacity = 0.6 * (1 - indexRatio); 
-          
-          // If it's the very first frame (before mouse move), hide everything
-          // Otherwise, use the movement logic
-          if (isFirstMove.current) {
-             ref.style.opacity = '0';
-          } else {
-             ref.style.opacity = isMoving ? baseOpacity.toString() : '0';
-          }
-          
-          const scale = 1 - (indexRatio * 0.5);
-          ref.style.scale = scale.toString();
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(animateTrail);
-    };
-
-    animateTrail();
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-  // Update mouse ref on move
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      // FIX: On the very first move, snap the entire trail to the cursor
-      // This prevents it from trailing in from the top-left (0,0)
-      if (isFirstMove.current) {
-        isFirstMove.current = false;
-        // Fill the entire array with the current position so there is no "lag" at start
-        trailPositions.current.fill({ x, y });
-      }
-
-      mouseCoords.current = { x, y };
-  };
-  // --- END TRAIL ANIMATION SETUP ---
-
+  // Handle Navbar background on scroll
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // --- SMOOTH SCROLL FUNCTION ---
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Projects", href: "#projects" },
-    { name: "Blog", href: "https://your-blog-url.com", external: true },
+    { name: "Blog", href: "https://medium.com/@martin.kamburov", external: true },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -128,7 +53,11 @@ function App() {
       {/* --- NAVBAR --- */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-          <a href="#home" className={`text-2xl font-bold tracking-tight ${isScrolled ? 'text-slate-900' : 'text-white'}`}>
+          <a 
+            href="#home" 
+            onClick={(e) => handleSmoothScroll(e, '#home')}
+            className={`text-2xl font-bold tracking-tight cursor-pointer ${isScrolled ? 'text-slate-900' : 'text-white'}`}
+          >
             Dev<span className="text-primary">.</span>Portfolio
           </a>
           <ul className="hidden md:flex space-x-8 font-medium">
@@ -136,8 +65,9 @@ function App() {
               <li key={link.name}>
                 <a 
                   href={link.href}
+                  onClick={(e) => !link.external && handleSmoothScroll(e, link.href)}
                   {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className={`hover:text-primary transition-colors ${isScrolled ? 'text-slate-600' : 'text-slate-200'}`}
+                  className={`hover:text-primary transition-colors cursor-pointer ${isScrolled ? 'text-slate-600' : 'text-slate-200'}`}
                 >
                   {link.name}
                 </a>
@@ -150,36 +80,22 @@ function App() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
-      <section 
-        id="home" 
-        className="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden bg-dark group"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => {
-           mouseCoords.current = { x: -1000, y: -1000 };
-           // We reset first move so if they come back it snaps again instead of flying
-           // Optional, but feels nicer
-           // isFirstMove.current = true; 
-        }}
-      >
-        {/* TRAIL ELEMENTS */}
-        {Array.from({ length: trailLength }).map((_, index) => (
-          <div
-            key={index}
-            ref={el => (trailRefs.current[index] = el)}
-            // Important: transition-opacity for smooth fade out, but NO transition on transform
-            className="absolute top-0 left-0 w-8 h-8 bg-blue-400 rounded-full blur-xl pointer-events-none transition-opacity duration-300 will-change-transform mix-blend-screen"
-            style={{
-               opacity: 0, 
-               transform: 'translate(-50%, -50%)' 
-             }}
-          />
-        ))}
-
-        {/* Static Background */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-           <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-           <div className="absolute bottom-[-10%] left-[-10%] w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl animate-float"></div>
+      {/* --- HERO SECTION (Updated Background) --- */}
+      <section id="home" className="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden bg-dark">
+        
+        {/* --- Ambient Blue Background Effects --- */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+           {/* Top Right - Large Blue/Purple */}
+           <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] opacity-50 animate-pulse"></div>
+           
+           {/* Bottom Left - Indigo/Dark Blue */}
+           <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-[80px] opacity-50"></div>
+           
+           {/* Center Left - Cyan/Light Blue splash */}
+           <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[60px] opacity-40"></div>
+           
+           {/* Center Right - Primary Blue splash */}
+           <div className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] bg-primary/10 rounded-full blur-[70px] opacity-40"></div>
         </div>
         
         <div className="max-w-6xl mx-auto px-6 relative z-10 text-center">
@@ -201,10 +117,18 @@ function App() {
             </p>
             
             <div className="flex justify-center gap-4 pt-6 relative z-10">
-               <a href="#projects" className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/30">
+               <a 
+                 href="#projects" 
+                 onClick={(e) => handleSmoothScroll(e, '#projects')}
+                 className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/30 cursor-pointer"
+               >
                 View My Work
               </a>
-              <a href="#contact" className="px-8 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 backdrop-blur-sm transition-all border border-white/10">
+              <a 
+                href="#contact" 
+                onClick={(e) => handleSmoothScroll(e, '#contact')}
+                className="px-8 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 backdrop-blur-sm transition-all border border-white/10 cursor-pointer"
+              >
                 Contact Me
               </a>
             </div>
@@ -271,9 +195,9 @@ function App() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ProjectCard 
               title="ApplyO" 
-              description="Applyo is a lightweight browser extension and web dashboard that helps you stay organized throughout your job hunt."
+              description="Applyo is a browser extension/dashboard that helps you stay organized during your job hunt."
               tags={['React', 'Next.js', 'PostgreSQL', 'Tailwind']}
-              imageUrl="/ApplyoPic.png"
+              imageUrl="/ApplyoPic.jpg"
               projectUrl="https://github.com/MartinKamburov/ApplyO"
             />
             <ProjectCard 
@@ -283,33 +207,33 @@ function App() {
               imageUrl="/PictureOfNbaStatFinderProject.png"
               projectUrl="https://github.com/MartinKamburov/NBA-Stat-Finder"
             />
-             <ProjectCard 
-              title="Privy Tune" 
-              description="An offline WebGPU powered AI Chatbot, download a lightweight LLM completely in the browser."
+            <ProjectCard 
+              title="House Listing Automation" 
+              description="This project uses Selenium to scrape house listings and send them to your email."
               tags={['React', 'Vite', 'Tailwind v4']}
-              imageUrl="https://privytune.vercel.app/"
+              imageUrl=""
+              projectUrl="https://drive.google.com/file/d/1VF8CzEENIybL2tO_NoWT8nTHMQlKwUWr/view?usp=sharing"
+            />
+            <ProjectCard 
+              title="JWT-Auth-Project" 
+              description="A concise full‑stack starter pack protected by stateless JWT authentication."
+              tags={['Spring Boot', 'React', 'PostgreSQL']}
+              imageUrl="/JwtAuthenticationProject.png"
+              projectUrl="https://github.com/MartinKamburov/JWT-Auth-Project"
+            />
+            <ProjectCard 
+              title="Privy Tune" 
+              description="An offline WebGPU powered AI Chatbot, download an LLM completely in the browser."
+              tags={['React', 'Vite', 'Tailwind v4']}
+              imageUrl="/PrivyTunePic.png"
               projectUrl="https://privytune.vercel.app/"
             />
-             <ProjectCard 
-              title="Developer Portfolio" 
-              description="This very website! Built for performance and clean aesthetics."
-              tags={['React', 'Vite', 'Tailwind v4']}
-              imageUrl="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              projectUrl="#"
-            />
-             <ProjectCard 
-              title="Developer Portfolio" 
-              description="This very website! Built for performance and clean aesthetics."
-              tags={['React', 'Vite', 'Tailwind v4']}
-              imageUrl="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              projectUrl="#"
-            />
-             <ProjectCard 
-              title="Developer Portfolio" 
-              description="This very website! Built for performance and clean aesthetics."
-              tags={['React', 'Vite', 'Tailwind v4']}
-              imageUrl="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              projectUrl="#"
+            <ProjectCard 
+              title="Stock Predictor" 
+              description="This project predicts any stock that you choose using an LSTM RNN"
+              tags={['Python', 'Tensorflow', 'Pandas', 'Numpy']}
+              imageUrl="/StockMarketPic.jpg"
+              projectUrl="https://github.com/MartinKamburov/StockPredictor"
             />
           </div>
         </div>
@@ -368,9 +292,9 @@ function ProjectCard({
 }) {
   return (
     <div className="group bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 overflow-hidden bg-slate-100">
         <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition-all z-10"></div>
-        <img src={imageUrl} alt={title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+        <img src={imageUrl} alt={title} className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500" />
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
