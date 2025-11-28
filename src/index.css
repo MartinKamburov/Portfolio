@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+/* Define your custom theme variables here */
+@theme {
+  /* --- Custom Colors --- */
+  /* A professional Royal Blue */
+  --color-primary: #2563EB;
+  /* A deep Slate for dark backgrounds */
+  --color-dark: #0F172A; 
+
+  /* --- Custom Animations --- */
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+/* Basic body reset */
+body {
+    @apply bg-slate-50 font-sans;
+}
