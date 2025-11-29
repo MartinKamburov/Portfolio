@@ -198,7 +198,7 @@ function App() {
               description="Applyo is a browser extension/dashboard that helps you stay organized during your job hunt."
               tags={['React', 'Next.js', 'PostgreSQL', 'Tailwind', 'TypeScript']}
               imageUrl="/ApplyoPic.jpg"
-              projectUrl="https://github.com/MartinKamburov/ApplyO"
+              projectUrl="https://www.applyo.tech"
             />
             <ProjectCard 
               title="NBA Stat Finder" 
