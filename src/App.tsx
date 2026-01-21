@@ -147,10 +147,10 @@ function App() {
                 <h2 className="text-3xl font-bold text-slate-900 mb-6">About Me</h2>
                 <div className="space-y-4 text-lg text-slate-600 leading-relaxed">
                   <p>
-                    I'm a passionate developer who recently graduated from <strong>Toronto Metropolitan University</strong> with a degree in Computer Science. 
+                    I'm a software developer who recently graduated from <strong>Toronto Metropolitan University</strong> with a degree in Computer Science. 
                   </p>
                   <p>
-                    My focus is on creating intuitive user experiences supported by robust backend architecture. I love learning new technologies and applying them to solve real-world challenges.
+                    My focus is on creating intuitive user experiences supported by robust backend architecture. I love learning, building and solving real-world challenges.
                   </p>
                   <p>
                     When I'm not coding, you can find me playing basketball, lifting weights, or creating the most random applications.
