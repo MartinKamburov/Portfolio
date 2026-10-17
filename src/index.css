@@ -2,11 +2,15 @@
 
 /* Define your custom theme variables here */
 @theme {
+  /* --- Fonts --- */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
   /* --- Custom Colors --- */
   /* A professional Royal Blue */
   --color-primary: #2563EB;
   /* A deep Slate for dark backgrounds */
-  --color-dark: #0F172A; 
+  --color-dark: #0B1222;
 
   /* --- Custom Animations --- */
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
@@ -29,7 +33,40 @@
   }
 }
 
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered entrance for hero content (use style={{ animationDelay }}) */
+@utility reveal {
+  opacity: 0;
+  animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Subtle grid that fades out toward the edges */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 /* Basic body reset */
 body {
-    @apply bg-slate-50 font-sans;
+    @apply bg-slate-50 font-sans antialiased;
 }
