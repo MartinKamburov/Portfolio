@@ -321,7 +321,7 @@ function App() {
               </div>
             </div>
 
-            <PipelineCard />
+            {/* <PipelineCard /> */}
           </div>
         </div>
       </section>
@@ -551,42 +551,42 @@ function SectionLabel({ children, dark = false }: { children: React.ReactNode, d
   );
 }
 
-function PipelineCard() {
-  const stages = [
-    { layer: 'Source', detail: 'Webhooks · EDGAR · PDFs', color: 'bg-sky-400/15 text-sky-300' },
-    { layer: 'Bronze', detail: 'raw filings → S3 / MongoDB', color: 'bg-amber-700/25 text-amber-400' },
-    { layer: 'Silver', detail: 'normalized → MySQL', color: 'bg-slate-300/15 text-slate-200' },
-    { layer: 'Gold', detail: 'performance metrics', color: 'bg-yellow-400/15 text-yellow-300' },
-  ];
+// function PipelineCard() {
+//   const stages = [
+//     { layer: 'Source', detail: 'Webhooks · EDGAR · PDFs', color: 'bg-sky-400/15 text-sky-300' },
+//     { layer: 'Bronze', detail: 'raw filings → S3 / MongoDB', color: 'bg-amber-700/25 text-amber-400' },
+//     { layer: 'Silver', detail: 'normalized → MySQL', color: 'bg-slate-300/15 text-slate-200' },
+//     { layer: 'Gold', detail: 'performance metrics', color: 'bg-yellow-400/15 text-yellow-300' },
+//   ];
 
-  return (
-    <div className="relative mt-8 lg:mt-0 lg:absolute lg:-bottom-14 lg:-left-6 w-full max-w-xs rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 font-mono text-xs">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-        <div className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
-          <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
-          <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
-        </div>
-        <span className="text-slate-400">fund_pipeline.py</span>
-        <span className="inline-flex items-center gap-1 text-emerald-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> live
-        </span>
-      </div>
-      <ol className="p-4 space-y-2">
-        {stages.map((stage, i) => (
-          <li key={stage.layer} className="flex items-center gap-3">
-            <span className="w-4 text-right text-slate-600">{i + 1}</span>
-            <span className={`w-14 shrink-0 text-center py-0.5 rounded-md font-semibold ${stage.color}`}>{stage.layer}</span>
-            <span className="text-slate-400 truncate">{stage.detail}</span>
-          </li>
-        ))}
-      </ol>
-      <div className="flex items-center gap-2 px-4 py-3 border-t border-white/10 text-emerald-400">
-        <CircleCheck size={14} /> quality checks passed
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="relative mt-8 lg:mt-0 lg:absolute lg:-bottom-14 lg:-left-6 w-full max-w-xs rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 font-mono text-xs">
+//       <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+//         <div className="flex gap-1.5">
+//           <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
+//           <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
+//           <span className="h-2.5 w-2.5 rounded-full bg-white/20"></span>
+//         </div>
+//         <span className="text-slate-400">fund_pipeline.py</span>
+//         <span className="inline-flex items-center gap-1 text-emerald-400">
+//           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> live
+//         </span>
+//       </div>
+//       <ol className="p-4 space-y-2">
+//         {stages.map((stage, i) => (
+//           <li key={stage.layer} className="flex items-center gap-3">
+//             <span className="w-4 text-right text-slate-600">{i + 1}</span>
+//             <span className={`w-14 shrink-0 text-center py-0.5 rounded-md font-semibold ${stage.color}`}>{stage.layer}</span>
+//             <span className="text-slate-400 truncate">{stage.detail}</span>
+//           </li>
+//         ))}
+//       </ol>
+//       <div className="flex items-center gap-2 px-4 py-3 border-t border-white/10 text-emerald-400">
+//         <CircleCheck size={14} /> quality checks passed
+//       </div>
+//     </div>
+//   );
+// }
 
 function SkillChip({ name, logo, icon: Icon = Boxes }: Skill) {
   const [logoFailed, setLogoFailed] = useState(false);
