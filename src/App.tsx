@@ -131,12 +131,12 @@ const experience = [
   },
 ];
 
-const focusAreas = [
-  { icon: Workflow, title: 'Data Pipelines', text: 'Great pipelines are boring: idempotent, observable and easy to replay.' },
-  { icon: BrainCircuit, title: 'AI & LLM Systems', text: "An LLM is only as useful as it is grounded, validated and measured." },
-  { icon: ShieldCheck, title: 'Data Quality', text: 'Bad data is worse than no data. Catch it early, before it reaches production.' },
-  { icon: Bot, title: 'Automation', text: "If I've done it twice by hand, it's time to automate it." },
-];
+// const focusAreas = [
+//   { icon: Workflow, title: 'Data Pipelines', text: 'Great pipelines are boring: idempotent, observable and easy to replay.' },
+//   { icon: BrainCircuit, title: 'AI & LLM Systems', text: "An LLM is only as useful as it is grounded, validated and measured." },
+//   { icon: ShieldCheck, title: 'Data Quality', text: 'Bad data is worse than no data. Catch it early, before it reaches production.' },
+//   { icon: Bot, title: 'Automation', text: "If I've done it twice by hand, it's time to automate it." },
+// ];
 
 const stats = [
   { value: '2,000+', label: 'active subscribers served' },
@@ -362,7 +362,7 @@ function App() {
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-5">
+            {/* <div className="grid sm:grid-cols-2 gap-5">
               {focusAreas.map(({ icon: Icon, title, text }) => (
                 <div
                   key={title}
@@ -375,7 +375,7 @@ function App() {
                   <p className="mt-2 text-sm text-slate-600 leading-relaxed">{text}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
 
           </div>
         </div>
