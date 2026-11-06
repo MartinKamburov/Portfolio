@@ -140,7 +140,7 @@ const focusAreas = [
 
 const stats = [
   { value: '2,000+', label: 'active subscribers served' },
-  { value: '$1T+', label: 'AUM across 400+ funds' },
+  // { value: '$', label: 'AUM across 400+ funds' },
   { value: '$50K+', label: 'revenue from automation' },
 ];
 
